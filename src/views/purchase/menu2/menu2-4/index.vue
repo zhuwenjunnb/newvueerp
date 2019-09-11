@@ -16,7 +16,7 @@
         </el-input>
       </div>
       <div style="float: right;margin: 15px 300px 0px 0px;">
-        <el-button type="primary" @click="dialogVisible = true;updatebool = false;entity = {}">新增</el-button>
+        <el-button type="primary" @click="dialogVisible = true;updatebool = false;formLabelAlign = {}">新增</el-button>
       </div>
     </div>
     <el-table ref="filterTable" :data="tableData" style="width: 100%;margin-top:10px;">
@@ -69,11 +69,24 @@
   
     <el-form :model="formLabelAlign" size="mini" :rules="rules" ref="formLabelAlign" label-width="100px" class="demo-ruleForm">
 
+<!--                custID:'',//供应商
+                    saleClassName: '', //入仓类型
+                    billDate: '', //单据日期
+                    warehouse: '', //仓库
+                    billNo: '', //单据号码
+                    voucherNo: '', //凭证编号
+                    setColumn: '', //自定栏一
+                    setTheBar: '', //自定栏二
+                    saleID: '', //入库人员
+                    maker: '', //制单人员
+                    departID: '', //所属部门
+                    permitter: '', //复核人员
+                    remark: '' //备注-->
             <el-row :gutter="10">
                 <el-col :xs="4" :sm="6" :md="8" :lg="9" :xl="11">
                         <div class="grid-content bg-purple-light">
-                         <el-form-item label="供应商" prop="Suppliers">
-                            <el-input v-model="formLabelAlign.Suppliers"></el-input>
+                         <el-form-item label="供应商" prop="custID">
+                            <el-input v-model="formLabelAlign.custID"></el-input>
                           </el-form-item>
                         </div>
                 </el-col>
@@ -82,7 +95,7 @@
                             <el-form-item label="单据日期">
                                 <div class="block">
                                         <el-date-picker
-                                        v-model="formLabelAlign.documentDate"
+                                        v-model="formLabelAlign.billDate"
                                           align="right"
                                           type="date"
                                           placeholder="选择日期"
@@ -100,23 +113,23 @@
 
                       <el-col :xs="4" :sm="6" :md="8" :lg="9" :xl="11">
                         <div class="grid-content bg-purple-light">
-                         <el-form-item label="入库类型" prop="storehouseType">
-                            <el-input v-model="formLabelAlign.storehouseType"></el-input>
+                         <el-form-item label="入库类型" prop="saleClassName">
+                            <el-input v-model="formLabelAlign.saleClassName"></el-input>
                           </el-form-item>
                         </div>
                       </el-col>
 
                         <el-col :xs="4" :sm="6" :md="8" :lg="9" :xl="11">
                             <div class="grid-content bg-purple-light">
-                                <el-form-item label="仓库" prop="warehouse">
-                                <el-input v-model="formLabelAlign.warehouse"></el-input>
+                                <el-form-item label="仓库" prop="csOne">
+                                <el-input v-model="formLabelAlign.csOne"></el-input>
                                 </el-form-item>
                             </div>
                         </el-col>
                         <el-col :xs="4" :sm="6" :md="8" :lg="9" :xl="11">
                             <div class="grid-content bg-purple">
-                                <el-form-item label="单据号码"  prop="documentNumber">
-                                    <el-input v-model="formLabelAlign.documentNumber"></el-input>
+                                <el-form-item label="单据号码"  prop="billNo">
+                                    <el-input v-model="formLabelAlign.billNo"></el-input>
                                 </el-form-item>
                             </div>
                         </el-col>
@@ -131,7 +144,7 @@
                             <el-col :xs="4" :sm="6" :md="8" :lg="9" :xl="11">
                                 <div class="grid-content bg-purple">  
                                     <el-form-item label="凭证编号" >
-                                    <el-input v-model="formLabelAlign.proofNumber"></el-input>
+                                    <el-input v-model="formLabelAlign.voucherNo"></el-input>
                                     </el-form-item>
                                 </div>
                             </el-col>
@@ -255,7 +268,7 @@
         <el-col :xs="4" :sm="6" :md="8" :lg="9" :xl="11"><div class="grid-content bg-purple-light">    <el-form-item label="所属部门" prop="department">
                 <el-input v-model="formLabelAlign.department"></el-input>
               </el-form-item></div></el-col>
-        <el-col :xs="4" :sm="6" :md="8" :lg="9" :xl="11"><div class="grid-content bg-purple">          <el-form-item label="复核人员" prop="serial">
+        <el-col :xs="4" :sm="6" :md="8" :lg="9" :xl="11"><div class="grid-content bg-purple"><el-form-item label="复核人员" prop="serial">
                 <el-input v-model="formLabelAlign.reviewingOfficer"></el-input>
               </el-form-item>
          </div></el-col>
@@ -270,7 +283,7 @@
                 <el-button type="primary" plain @click="primary(show)">查询</el-button>
                     <ul  class="ulli" v-if="show">
                         <li><el-button type="text" @click="open">查询历史交易记录</el-button></li>
-                        <li><a href="#">分摊费用明细查询</a></li>
+                        <li><el-button type="text" @click="open">分摊费用明细查询</el-button></li>
                     </ul>
                     </el-form-item>
             </div>
@@ -345,18 +358,18 @@
                     }
                 },
                 formLabelAlign: {
-                    Suppliers:'',
-                    storehouseType: '', //入仓类型
-                    documentDate: '', //单据日期
-                    warehouse: '', //仓库
-                    documentNumber: '', //单据号码
-                    proofNumber: '', //凭证编号
+                    custID:'',//供应商
+                    saleClassName: '', //入仓类型
+                    billDate: '', //单据日期
+                    csOne: '', //仓库
+                    billNo: '', //单据号码
+                    voucherNo: '', //凭证编号
                     setColumn: '', //自定栏一
                     setTheBar: '', //自定栏二
-                    outboundPersonnel: '', //出库人员
-                    makingPersonnel: '', //制单人员
-                    department: '', //所属部门
-                    reviewingOfficer: '', //复核人员
+                    saleID: '', //入库人员
+                    maker: '', //制单人员
+                    departID: '', //所属部门
+                    permitter: '', //复核人员
                     remark: '' //备注
                 },
                 rules: {
@@ -449,16 +462,7 @@
     save() {
       if(!this.updatebool){
         // 新增
-        request({
-          url: "/comdepartment/add",
-          method: "post",
-          data: this.entity
-        }).then(result => {
-            Message.success(result.data.data)
-            //关闭模态框
-            this.addDialog = false
-            this.entity = {}
-        });
+      
       }else{
         // 修改
         request({
@@ -497,7 +501,16 @@
     }, submitForm(formLabelAlign) {
                 this.$refs[formLabelAlign].validate((valid) => {
                     if (valid) {
-                        alert('可以新增');
+                      //新增
+                          request({
+                                    url: "/zwjwarehousingdetail/add",
+                                    method: "post",
+                                    data: this.formLabelAlign
+                                  }).then(result => {
+                                      Message.success(result.data.data)
+                                      
+                                      this.formLabelAlign = {}
+                                  });
                     } else {
                         console.log('error submit!!');
                         return false;
