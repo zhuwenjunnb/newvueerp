@@ -6,27 +6,26 @@
         <el-input placeholder="请输入内容" v-model="selectValue" class="input-with-select">
           <el-select v-model="select" slot="prepend" placeholder="请选择">
             <el-option label="查询全部" value="-1"></el-option>
-            <el-option label="单据号码" value="departID"></el-option>
-            <el-option label="请购类型" value="engName"></el-option>
-            <el-option label="单况" value="departName"></el-option>
+            <el-option label="单据号码" value="billNO"></el-option>
           </el-select>
           <el-button slot="append" icon="el-icon-search" @click="findPage"></el-button>
         </el-input>
       </div>
-      <div style="float: right;margin: 15px 300px 0px 0px;">
+      <div style="float: right;margin: 15px 10px 0px 0px;">
         <el-button type="primary" @click="add">新增</el-button>
       </div>
     </div>
 
     <el-table ref="filterTable" :data="tableData" style="margin-top:10px;">
-      <el-table-column prop="departID" label="单据号码" sortable width="180" column-key="date"></el-table-column>
-      <el-table-column prop="departName" label="供应商" width="180"></el-table-column>
-      <el-table-column prop="engName" label="单据日期" width="280"></el-table-column>
-      <el-table-column prop="memo" label="采购人员" width="280"></el-table-column>
-      <el-table-column label="操作" width="280">
+      <el-table-column prop="billNO" label="单据号码" sortable width="180" column-key="date"></el-table-column>
+      <el-table-column prop="custShortName" label="供应商" width="180"></el-table-column>
+      <el-table-column prop="billDate" label="单据日期" width="180"></el-table-column>
+      <el-table-column prop="salesName" label="采购人员" width="160"></el-table-column>
+      <el-table-column prop="validDate" label="有效日期" width="180"></el-table-column>
+      <el-table-column label="操作" width="200">
         <template slot-scope="scope">
-          <el-button size="mini" @click="update(scope.row)">修改</el-button>
-          <el-button size="mini" type="danger" @click="del(scope.row.departID)">删除</el-button>
+          <el-button size="mini" @click="update(scope.row.billNO)">修改</el-button>
+          <el-button size="mini" type="danger" @click="del(scope.row.billNO)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -64,9 +63,10 @@ export default {
       addDialog: false, // 新增模态框
       innerVisible:false,//子模态框
       currentPage: 1,   // 当前页
-      currentSize: 10,  // 每页条数
+      currentSize: 2,  // 每页条数
       pagenumber: 0,     // 总条数
       updatebool:false,
+      titleDialog:"",
       rules: {
         departID: [
            { required: true, message: '编号不能为空', trigger: 'blur' },
@@ -110,14 +110,14 @@ export default {
       this.innerVisible = false;
       if(scope){
         //console.log(scope)
-        this.$router.push({path:url,query:{id:scope.row.id}});
+        this.$router.push({path:url,query:{id:scope}});
       }else{
         this.$router.push(url);
       }
     },
     //新增模态框事件
     add:function(){
-      this.openDialog('采购询价','/operateXj',"");
+      this.openDialog('采购询价','/operateXj'," ");
     },
     //关闭模态框
     handleClose(done) {
@@ -136,13 +136,14 @@ export default {
       }
       request({
         url:
-          "/comdepartment/findPage?current=" +
+          "/yxpurchaseenquiry/query?current=" +
           this.currentPage +
           "&size=" +
           this.currentSize,
         method: "post",
         data: this.findData
       }).then(result => {
+        console.log(result)
         this.tableData = result.data.data.rows; //查询的数据
         this.pagenumber = result.data.data.total; // 总条数
       });
@@ -193,16 +194,19 @@ export default {
       var number = this.entity.departID
     },
     // 修改
-    update(entity){
-      this.updatebool = true
-      this.addDialog = true
-      this.entity = entity
+    update(id){
+      console.log(id)
+      this.openDialog('采购询价','/operateXj',id);
     },
     // 删除
     del(id){
+      console.log(id)
       request({
-        url: "/comdepartment/del?id="+id,
-        method: "get"
+        url: "/yxpurchaseenquiry/deleteRDs",
+        method: "get",
+        params:{
+          billNO:id
+        }
       }).then(result => {
         Message.success(result.data.data)
         this.findPage()

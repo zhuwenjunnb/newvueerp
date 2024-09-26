@@ -17,7 +17,7 @@
           @click="addDialog = true;updatebool = false;entity = {comcustaddressList:[],comcusttrade:{},comcustdesc:{}}"
         >新增</el-button>
       </div>
-    </div>
+    </div>-
 
     <el-table ref="filterTable" :data="tableData" style="width: 100%;margin-top:10px;">
       <el-table-column prop="id" label="客户编号" sortable width="180" column-key="date"></el-table-column>
@@ -41,7 +41,7 @@
           <div style="width:45%;float:left;">
             <el-form label-position="left" label-width="80px" size="mini">
               <el-form-item label="客户编号">
-                <el-input v-model="entity.id"></el-input>
+                <el-input v-model="entity.id" :disabled="updatebool"></el-input>
               </el-form-item>
               <el-form-item label="客户全称">
                 <el-input v-model="entity.fullName"></el-input>
@@ -88,6 +88,7 @@
             </el-form>
           </div>
         </div>
+        
         <div style="padding: 0px 10px;">
           <el-tabs type="card">
             <el-tab-pane label="基本资料">
@@ -139,40 +140,40 @@
             <el-tab-pane label="销售信息">
               <el-form label-position="left" label-width="120px" :inline="true" size="mini">
                 <el-form-item label="最初销售出库日">
-                  <el-date-picker v-model="entity.earliestTradeDate" type="date" placeholder="选择日期"></el-date-picker>
+                  <el-date-picker v-model="entity.earliestTradeDate" type="date" placeholder="选择日期" style="width:185px;"  value-format="yyyy-MM-dd"></el-date-picker>
                 </el-form-item>
                 <el-form-item label="折数(%)">
                   <el-input v-model="entity.rateOfDiscount"></el-input>
                 </el-form-item>
                 <el-form-item label="最初销售退货日">
-                  <el-date-picker v-model="entity.firstTradeDate" type="date" placeholder="选择日期"></el-date-picker>
+                  <el-date-picker v-model="entity.firstTradeDate" type="date" placeholder="选择日期" style="width:185px;"  value-format="yyyy-MM-dd"></el-date-picker>
                 </el-form-item>
                 <el-form-item label="售价等级">
                   <el-input v-model="entity.priceRank"></el-input>
                 </el-form-item>
                 <el-form-item label="最近销售出库日">
-                  <el-date-picker v-model="entity.latelyTradeDate" type="date" placeholder="选择日期"></el-date-picker>
+                  <el-date-picker v-model="entity.latelyTradeDate" type="date" placeholder="选择日期" style="width:185px;"  value-format="yyyy-MM-dd"></el-date-picker>
                 </el-form-item>
                 <el-form-item label="单价是否含税">
                   <el-input v-model="entity.invoTax"></el-input>
                 </el-form-item>
                 <el-form-item label="最近销售退货日">
-                  <el-date-picker v-model="entity.latelyReturnDate" type="date" placeholder="选择日期"></el-date-picker>
+                  <el-date-picker v-model="entity.latelyReturnDate" type="date" placeholder="选择日期" style="width:185px;"  value-format="yyyy-MM-dd"></el-date-picker>
                 </el-form-item>
                 <el-form-item label="潜在客户编号">
                   <el-input v-model="entity.custIntro"></el-input>
                 </el-form-item>
                 <el-form-item label="最近拜访日">
-                  <el-date-picker v-model="entity.lastVisitDate" type="date" placeholder="选择日期"></el-date-picker>
+                  <el-date-picker v-model="entity.lastVisitDate" type="date" placeholder="选择日期" style="width:185px;"  value-format="yyyy-MM-dd"></el-date-picker>
                 </el-form-item>
                 <el-form-item label="客户建立日期">
-                  <el-date-picker v-model="entity.buildUpDate" type="date" placeholder="选择日期"></el-date-picker>
+                  <el-date-picker v-model="entity.buildUpDate" type="date" placeholder="选择日期" style="width:185px;"  value-format="yyyy-MM-dd"></el-date-picker>
                 </el-form-item>
                 <el-form-item label="预约拜访日">
-                  <el-date-picker v-model="entity.bookVisitDate" type="date" placeholder="选择日期"></el-date-picker>
+                  <el-date-picker v-model="entity.bookVisitDate" type="date" placeholder="选择日期" style="width:185px;"  value-format="yyyy-MM-dd"></el-date-picker>
                 </el-form-item>
                 <el-form-item label="终止交易日">
-                  <el-date-picker v-model="entity.finalTradeDate" type="date" placeholder="选择日期"></el-date-picker>
+                  <el-date-picker v-model="entity.finalTradeDate" type="date" placeholder="选择日期" style="width:185px;"  value-format="yyyy-MM-dd"></el-date-picker>
                 </el-form-item>
               </el-form>
             </el-tab-pane>
@@ -209,7 +210,7 @@
                   <el-input v-model="entity.initialreceivables"></el-input>
                 </el-form-item>
                 <el-form-item label="信用等级">
-                  <el-select v-model="entity.creditLevel" clearable placeholder="请选择" style="width:185px;">
+                  <el-select v-model="entity.creditLevel" clearable placeholder="请选择" style="width:185px;"  value-format="yyyy-MM-dd">
                     <el-option value="A" label="A"></el-option>
                     <el-option value="B" label="B"></el-option>
                     <el-option value="C" label="C"></el-option>
